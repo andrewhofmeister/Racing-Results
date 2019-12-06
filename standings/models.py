@@ -29,7 +29,11 @@ class Results(models.Model):
 	points = models.IntegerField()
 
 class Races(models.Model):
-	race_id = models.IntegerField(primary_key=True)
+	race_id = models.IntegerField(null=True) #Clubspeed id number
 	date = models.DateField()
 	race_name = models.CharField(max_length=30) # Heat 1, 2, Main, and ect...
 	weight_class = models.IntegerField(null=True) #Will allow empty until I figure out how to find race class
+
+class Round(model.Model):
+	date = models.DateField()
+	
