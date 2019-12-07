@@ -34,6 +34,5 @@ class Races(models.Model):
 	race_name = models.CharField(max_length=30) # Heat 1, 2, Main, and ect...
 	weight_class = models.IntegerField(null=True) #Will allow empty until I figure out how to find race class
 
-class Round(model.Model):
+class RoundInput(model.Model):
 	date = models.DateField()
-	
