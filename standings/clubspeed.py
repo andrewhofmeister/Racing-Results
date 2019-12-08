@@ -1,44 +1,13 @@
-# This script will get all relevant race data for each race session
-# and store it in the app's database.
-
+#working on moving these functions to more django friendly formats in other files
+# will be deleting functions here as I move them to other files.
 import os, requests, json
 from datetime import timedelta, date
 from dotenv import load_dotenv
-from models import Races
 
 #Load API key from .env file
 load_dotenv()
 API_KEY = os.getenv('CLUBSPEED_API_KEY')
 
-race_ids = []
-race_names = {} # {race_id:race_name}
-
-# Finds all races on specified date
-def findRaces(race_date): ##YYYY-MM-DD ## 2019-11-21
-	end_date = race_date + timedelta(days=1)
-	payload = {
-		"start": race_date,
-		"end": end_date,
-		"key": API_KEY
-	}
-	response = requests.get("https://ssnewcaney.clubspeedtiming.com/api/index.php/races/races.json", params=payload)
-	races = response.json()['races']
-	for n in races:
-		id = n["HeatNo"]
-		race_ids.append(id)
-
-	payload = {
-		"key": API_KEY
-	}
-	for n in race_ids:
-		response = requests.get("https://ssnewcaney.clubspeedtiming.com/api/index.php/races/" + n + ".json", params=payload)
-		race_name = response.json()['race']['race_name']
-		if race_name in ('Qualifying', 'Heat 1', 'Heat 2', 'Main'):
-			r.Races(race_id = n, date = race_date, race_name = race_name)
-			r.save()
-
-
-			#race_names[n] = race_name
 
 #Returns list of race results in finishing order by driver_id
 def getRaceResults(race_id):
@@ -70,5 +39,3 @@ def getDrivers(race_names):
 #	get all drivers(name and id)
 #	get fastest lap from main races
 
-
-findRaces(2019-11-21)

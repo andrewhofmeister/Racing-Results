@@ -4,7 +4,7 @@ class Driver(models.Model):
 	driver_id = models.IntegerField(primary_key=True)
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
-	weight_class = models.IntegerField(null=True)
+	weight_class = models.CharField(max_length=30)
 	is_rookie = models.BooleanField(default=False)
 
 	def __str__(self):
@@ -28,11 +28,5 @@ class Results(models.Model):
 	fastest_lap = models.BooleanField(default=False)
 	points = models.IntegerField()
 
-class Races(models.Model):
-	race_id = models.IntegerField(null=True) #Clubspeed id number
-	date = models.DateField()
-	race_name = models.CharField(max_length=30) # Heat 1, 2, Main, and ect...
-	weight_class = models.IntegerField(null=True) #Will allow empty until I figure out how to find race class
-
-class RoundInput(model.Model):
-	date = models.DateField()
+class Round(models.Model):
+	date = models.DateTimeField()
