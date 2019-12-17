@@ -1,9 +1,0 @@
-{% if all_races %}
-	<ul>
-		{% for Race in all_races %}
-			<li><a href="/results/{{Race.race_id}}/">{{Race.race_name}}</a></li>
-		{% endfor %}
-	</ul>
-{% else %}
-	<p>No races are available.</p>
-{% endif %}
