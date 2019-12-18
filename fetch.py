@@ -56,10 +56,51 @@ def getLeagueRaces(race_ids):
 
 
 # Input a race_id and return a list of all racer_ids from that race.
+# Example - getRacers('21385')
 def getRacers(race_id):
-    pass
+    url = api_url + '/races/'
+    parameters = {
+                  "key": API_KEY
+    }
+    racer_ids = []
+    response = requests.get(url + race_id, params=parameters)
+    race = response.json()['race']
+    for index, n in enumerate(race['racers']):
+        id = race['racers'][index]['id']
+        racer_ids.append(id)
+    return racer_ids
 
 
 # Input a race_id and racer_id and return the results for that racer's race.
+# Example - getRaceResults('21385', '1029414')
 def getRaceResults(race_id, racer_id):
-    pass
+    url = api_url + '/races/'
+    parameters = {
+                  "key": API_KEY
+    }
+    race_results = {}
+    response = requests.get(url + race_id, params=parameters)
+    race = response.json()['scoreboard']
+    for index, n in enumerate(race):
+        if race[index]['racer_id'] == racer_id:
+            id = race[index]['racer_id']
+            first_name = race[index]['first_name']
+            last_name = race[index]['last_name']
+            position = race[index]['position']
+            gap = race[index]['gap']
+            fastest_lap_time = race[index]['fastest_lap_time']
+            kart_num = race[index]['kart_num']
+            race_results.update({'racer_id': id,
+                                 'first_name': first_name,
+                                 'last_name': last_name,
+                                 'position': position,
+                                 'gap': gap,
+                                 'fastest_lap_time': fastest_lap_time,
+                                 'kart_num': kart_num
+                                 })
+        else:
+            pass
+    if race_results == {}:
+        print('No Results Found')
+    else:
+        return race_results
