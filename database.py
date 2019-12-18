@@ -1,6 +1,7 @@
 # Initialize sqlite3 database schema and functions to add/delete entries.
 import sqlite3
 
+# Initialize db in RAM for every run of script for developemnt and testing
 conn = sqlite3.connect(':memory:')
 
 c = conn.cursor()
