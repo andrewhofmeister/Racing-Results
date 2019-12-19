@@ -26,8 +26,11 @@ def getRaces(year, month, day):
     response = requests.get(url, params=parameters)
     races = response.json()['races']
     for n in races:
-        id = n['HeatNo']
-        race_ids.append(id)
+        if n['HeatStatus'] == '3' or '2':
+            id = n['HeatNo']
+            race_ids.append(id)
+        else:
+            pass
     print('Races from ' + str(race_date) + ':' + str(race_ids))
     return race_ids
 
