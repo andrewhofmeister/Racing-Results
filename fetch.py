@@ -88,22 +88,17 @@ def getRaceResults(race_id, racer_id):
     parameters = {
                   "key": API_KEY
     }
-    race_results = []
     response = requests.get(url + race_id, params=parameters)
     race = response.json()['scoreboard']
     for index, n in enumerate(race):
         if race[index]['racer_id'] == racer_id:
             id = race[index]['racer_id']
-            first_name = race[index]['first_name']
-            last_name = race[index]['last_name']
             position = race[index]['position']
             gap = race[index]['gap']
             fastest_lap_time = race[index]['fastest_lap_time']
             kart_num = race[index]['kart_num']
             race_results = [race_id,
                             id,
-                            first_name,
-                            last_name,
                             position,
                             gap,
                             fastest_lap_time,
@@ -114,3 +109,16 @@ def getRaceResults(race_id, racer_id):
         print('No Results Found')
     else:
         return race_results
+
+
+# Input racer_id and returns a list with their id, first_name, and last_name.
+# Example - getRacerInfo('1000163')
+def getRacerInfo(racer_id):
+    url = api_url + '/racers/'
+    parameters = {
+                  "key": API_KEY
+    }
+    response = requests.get(url + racer_id, params=parameters)
+    racer = response.json()['racer']
+    racer_info = [racer['id'], racer['name']['first'], racer['name']['last']]
+    return(racer_info)
