@@ -32,27 +32,37 @@ def getRaces(year, month, day):
     return race_ids
 
 
-# Input a list of race_ids and return a dictionary of relevant races.
-# In the form of {race_id : race_name}
+# Input a list of race_ids and return a list of relveant races.
 # Example - getLeagueRaces(['21289', '21388', '21389', '21378', '21382'])
 def getLeagueRaces(race_ids):
     url = api_url + '/races/'
     parameters = {
                   "key": API_KEY
     }
-    league_races = {}
+    league_races = []
     for n in race_ids:
         response = requests.get(url + n, params=parameters)
         race = response.json()['race']
         if race['race_name'] in ('Qualifying', 'Heat 1', 'Heat 2', 'Main'):
             id = race['id']
-            print(id + ' : ' + race['race_name'])
-            league_races.update({id: race['race_name']})
+            league_races.append(id)
     return(league_races)
 
 
-# Test function - should return 8 total races. 2 of each race type.
-# getLeagueRaces(getRaces(2019, 11, 21))
+# Input race_id number and returns some info about it in a dictionary
+# Example - getRaceInfo('21385')
+def getRaceInfo(race_id):
+    url = api_url + '/races/'
+    parameters = {
+                  "key": API_KEY
+    }
+    response = requests.get(url + race_id, params=parameters)
+    race = response.json()['race']
+    id = race['id']
+    date = race['starts_at'][0:10]
+    name = race['race_name']
+    race_info = [id, date, name]
+    return(race_info)
 
 
 # Input a race_id and return a list of all racer_ids from that race.
@@ -78,7 +88,7 @@ def getRaceResults(race_id, racer_id):
     parameters = {
                   "key": API_KEY
     }
-    race_results = {}
+    race_results = []
     response = requests.get(url + race_id, params=parameters)
     race = response.json()['scoreboard']
     for index, n in enumerate(race):
@@ -90,14 +100,13 @@ def getRaceResults(race_id, racer_id):
             gap = race[index]['gap']
             fastest_lap_time = race[index]['fastest_lap_time']
             kart_num = race[index]['kart_num']
-            race_results.update({'racer_id': id,
-                                 'first_name': first_name,
-                                 'last_name': last_name,
-                                 'position': position,
-                                 'gap': gap,
-                                 'fastest_lap_time': fastest_lap_time,
-                                 'kart_num': kart_num
-                                 })
+            race_results = [id,
+                            first_name,
+                            last_name,
+                            position,
+                            gap,
+                            fastest_lap_time,
+                            kart_num]
         else:
             pass
     if race_results == {}:
