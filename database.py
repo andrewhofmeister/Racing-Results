@@ -1,6 +1,6 @@
 # Initialize sqlite3 database schema and functions to add/delete entries.
 import sqlite3
-from fetch import getRaces, getLeagueRaces, getRaceInfo
+from fetch import getRaces, getLeagueRaces, getRaceInfo, getRaceResults
 # Initialize db in RAM for every run of script for developemnt and testing
 conn = sqlite3.connect(':memory:')
 
@@ -42,19 +42,19 @@ def insert_race(race):
 def insert_results(results):
     with conn:
         c.execute("""INSERT INTO results VALUES(
-                  : race_id,
-                  : racer_id,
-                  : position,
-                  : gap,
-                  : fastest_lap_time,
-                  : kart_num
+                  :race_id,
+                  :racer_id,
+                  :position,
+                  :gap,
+                  :fastest_lap_time,
+                  :kart_num
                   )""",
                   {'race_id': results[0],
                    'racer_id': results[1],
-                   'position': results[2],
-                   'gap': results[3],
-                   'fastest_lap_time': results[4],
-                   'kart_num': results[5]
+                   'position': results[4],
+                   'gap': results[5],
+                   'fastest_lap_time': results[6],
+                   'kart_num': results[7]
                    })
 
 
@@ -75,9 +75,13 @@ def remove_racer(racer):
 # league_races = getLeagueRaces(all_races)
 # print(league_races)
 race1 = getRaceInfo('21385')
+print(race1)
 insert_race(race1)
-
 c.execute("SELECT * FROM races")
 print(c.fetchall())
 
+results = getRaceResults('21385', '1000163')
+print(results)
+insert_results(results)
 c.execute("SELECT * FROM results")
+print(c.fetchall())

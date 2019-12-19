@@ -100,7 +100,8 @@ def getRaceResults(race_id, racer_id):
             gap = race[index]['gap']
             fastest_lap_time = race[index]['fastest_lap_time']
             kart_num = race[index]['kart_num']
-            race_results = [id,
+            race_results = [race_id,
+                            id,
                             first_name,
                             last_name,
                             position,
