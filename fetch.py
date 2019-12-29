@@ -43,31 +43,26 @@ def getLeagueRaces(race_ids):
                   "key": API_KEY
     }
     league_races = []
-    if isinstance(race_ids, list):
-        for n in race_ids:
-            response = requests.get(url + n, params=parameters)
-            race = response.json()['race']
-            if (
-                race['race_name'] in ('Qualifying', 'Heat 1', 'Heat 2', 'Main')
-                and race['heat_status_id'] == '2' or '3'
-            ):
-                id = race['id']
-                league_races.append(id)
-                print(n + 'is a League Race')
-            else:
-                print(n + 'Not a League Race')
-    else:
-        response = requests.get(url + race_ids, params=parameters)
+    for n in race_ids:
+        response = requests.get(url + n, params=parameters)
         race = response.json()['race']
         if (
-            race['race_name'] in ('Qualifying', 'Heat 1', 'Heat 2', 'Main')
-            and race['heat_status_id'] == '2' or '3'
+            race['heat_type_id'] in ('14', '15', '16', '17')
+            and race['heat_status_id'] in ('2', '3')
         ):
             id = race['id']
             league_races.append(id)
-            print(race_ids + ' is a League Race')
-        else:
-            print(race_ids + ' Not a League Race')
+        elif (
+              race['track_id'] == '1'
+              and race['race_name'] in (
+                'Qualifying',
+                'Heat 1',
+                'Heat 2',
+                'Main')
+              and race['heat_status_id'] in ('2', '3')
+              ):
+            id = race['id']
+            league_races.append(id)
     return(league_races)
 
 
