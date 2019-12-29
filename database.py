@@ -2,11 +2,11 @@
 import sqlite3
 from fetch import getRaceInfo, getRaceResults, getRacers, getRacerInfo
 # Initialize db in RAM for every run of script for developemnt and testing
-conn = sqlite3.connect(':memory:')
+conn = sqlite3.connect('database.db')
 
 c = conn.cursor()
 
-c.execute("""CREATE TABLE [IF NOT EXISTS] races (
+c.execute("""CREATE TABLE IF NOT EXISTS races (
         race_id INTEGER NOT NULL,
         race_date TEXT NOT NULL,
         race_name TEXT NOT NULL,
@@ -14,13 +14,13 @@ c.execute("""CREATE TABLE [IF NOT EXISTS] races (
         )""")
 
 
-c.execute("""CREATE TABLE [IF NOT EXISTS] classes (
-        class_id INTEGER PRIMARY KEY AUTOINCREMENT
+c.execute("""CREATE TABLE IF NOT EXISTS classes (
+        class_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL
         )""")
 
 
-c.execute("""CREATE TABLE [IF NOT EXISTS] racers (
+c.execute("""CREATE TABLE IF NOT EXISTS racers (
         racer_id INTEGER NOT NULL,
         first_name TEXT,
         last_name TEXT,
@@ -31,7 +31,7 @@ c.execute("""CREATE TABLE [IF NOT EXISTS] racers (
         )""")
 
 
-c.execute("""CREATE TABLE [IF NOT EXISTS] results (
+c.execute("""CREATE TABLE IF NOT EXISTS results (
         result_id INTEGER PRIMARY KEY AUTOINCREMENT,
         race_id INTEGER NOT NULL,
         racer_id INTEGER NOT NULL,
@@ -118,21 +118,21 @@ def remove_racer(racer):
 # all_races = getRaces(2019, 11, 21)
 # league_races = getLeagueRaces(all_races)
 # print(league_races)
-race1 = getRaceInfo('21385')
-insert_race(race1)
+# race1 = getRaceInfo('21385')
+# insert_race(race1)
 c.execute("SELECT * FROM races")
 print(c.fetchall())
-
-results = getRaceResults('21385', '1000163')
-insert_results(results)
-c.execute("SELECT * FROM results")
-print(c.fetchall())
-
-racers = getRacers('21385')
-racer1 = getRacerInfo(racers[0])
-racer2 = getRacerInfo(racers[1])
-racer2.append('H')
-insert_racer(racer1)
-insert_racer(racer2)
-c.execute("SELECT * FROM racers")
-print(c.fetchall())
+#
+# results = getRaceResults('21385', '1000163')
+# insert_results(results)
+# c.execute("SELECT * FROM results")
+# print(c.fetchall())
+#
+# racers = getRacers('21385')
+# racer1 = getRacerInfo(racers[0])
+# racer2 = getRacerInfo(racers[1])
+# racer2.append('H')
+# insert_racer(racer1)
+# insert_racer(racer2)
+# c.execute("SELECT * FROM racers")
+# print(c.fetchall())
